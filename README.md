@@ -10,6 +10,7 @@ We applied our new proposed operations on three well-known networks, they are ` 
 
 The Datasets we use are ` cifar10`  ` cifar100`  `tiny-imagenet ` 
 
+We are going further to test models with our proposed free operation `Reuse` on dataset `Imagenet`
 
 ## Environment
 
