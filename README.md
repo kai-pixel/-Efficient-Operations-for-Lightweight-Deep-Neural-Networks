@@ -1,5 +1,18 @@
 # Train and Test cifar 100 
 
+## Introduction
+
+
+
+## Environment
+
+1.  Pytorch 1.0
+
+2.  Cuda 9
+
+3.  Cudnn 7
+
+4.  Python 3.6
 
 ***
 ## Please follow the steps below：
