@@ -1,4 +1,4 @@
-# Train and Test cifar 100 
+# Dose Network really need so many differnt feature maps ?
 
 ## Introduction
 
@@ -22,7 +22,8 @@ The Datasets we use are ` cifar10`  ` cifar100`  `tiny-imagenet `
 4.  Python 3.6
 
 ***
-## Please follow the steps below：
+
+## If you want to test our model on cifar 100, Please follow the steps below：
 
 ### `Step one: setting path` 
 
