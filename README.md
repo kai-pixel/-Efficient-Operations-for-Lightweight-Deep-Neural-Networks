@@ -8,9 +8,9 @@ A new free operation ` Reuse` is proposed to replace the 1x1 convolution for inc
 
 We applied our new proposed operation on three well-known networks, they are ` MobileNetV2` ` MobileNetV3` ` SqueezeNet` 
 
-The Datasets we have already used by now are ` cifar10`  ` cifar100`  `tiny-imagenet ` 
+The datasets we have already used by now are ` cifar10`  ` cifar100`  `tiny-imagenet ` 
 
-We are going further to test models with our proposed free operation `Reuse` on dataset `Imagenet`
+We are further testing models with our proposed free operation `Reuse` on dataset `Imagenet`
 
 ## Environment
 
