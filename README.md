@@ -1,4 +1,4 @@
-# Do networks really need so many different feature maps for deep neural networks ?
+# Do networks really need so many different feature maps for deep learning ?
 
 ## Introduction
 
