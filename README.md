@@ -26,7 +26,7 @@ We are going further to test models with our proposed free operation `Reuse` on 
 
 ## If you want to test our model on cifar 100, Please follow the steps below：
 
-### `Step one: setting path` 
+#### `Step one: setting path` 
 
 1.  give your own checkpoint path in main.py (line 45) 
 
