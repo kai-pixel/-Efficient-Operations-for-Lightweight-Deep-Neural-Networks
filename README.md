@@ -2,6 +2,11 @@
 
 ## Introduction
 
+This project aims to explore how to use feature maps efficiently.
+
+A new free operation is proposed to replace the convolution operation for increasing dimensions.
+
+We applied our new proposed operations on three well-known networks, they are ` MobileNetV2` , ` MobileNetV3`  and ` SqueezeNet` 
 
 
 ## Environment
