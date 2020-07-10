@@ -1,4 +1,6 @@
-__Train and Test cifar 100 with one file main.py__
+#Train and Test cifar 100 with one file main.py
+
+
 ***
 Please follow the steps below：
 
