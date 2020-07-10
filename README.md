@@ -4,7 +4,7 @@
 
 This project aims to explore how to use feature maps efficiently.
 
-A new free operation ` Reuse` is proposed to replace the convolution operation for increasing dimensions.
+A new free operation ` Reuse` is proposed to replace the 1x1 convolution operation for increasing dimension of feature map.
 
 We applied our new proposed operations on three well-known networks, they are ` MobileNetV2` ` MobileNetV3` ` SqueezeNet` 
 
