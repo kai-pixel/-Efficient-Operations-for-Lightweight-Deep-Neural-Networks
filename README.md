@@ -2,7 +2,7 @@ Train and Test cifar 100 with one file main.py
 ***
 Please follow the steps below：
 
-'Step one`: setting path
+`Step one: setting path` 
 1，give your own checkpoint path in main.py (line 45) 
 2,  give your own logdir path in main.py (line 58) 
 3,  give your own dataset downloading path in main.py (line 94)(line 108)
