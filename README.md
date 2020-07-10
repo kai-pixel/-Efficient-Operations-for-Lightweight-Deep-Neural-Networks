@@ -24,7 +24,7 @@ We are further testing models with our proposed free operation `Reuse` on datase
 
 ***
 
-## If you want to test our model on cifar 100, Please follow the steps below：
+## If you want to use our model on cifar 100, Please follow the steps below：
 
 #### `Step one: setting path` 
 
