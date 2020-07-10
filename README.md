@@ -77,7 +77,7 @@ looks like this:
 
 ## Results Table
 
-| Results on cifar100   | top1 error   | top5 error   |
+|  cifar100   | top1 error   | top5 error   |
 | ---------- | :-----------:  | :-----------: |
 | MobileNetV2   | 31.5     | 9.01     |
 | cheapV2     | 28.76     | 8.13     |
