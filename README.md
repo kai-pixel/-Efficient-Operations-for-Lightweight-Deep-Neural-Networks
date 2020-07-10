@@ -1,4 +1,4 @@
-# Dose Network really need so many differnt feature maps ?
+# Dose Network really need so many different feature maps ?
 
 ## Introduction
 
