@@ -66,9 +66,9 @@ def get_network(args, use_gpu=True):
         from models.MobileNetV3 import MobileNetV3
         net = MobileNetV3()        
         
-    elif args.net == 'v3_x_sereuse':
-        from models.v3_x_sereuse import v3_x_sereuse
-        net = v3_x_sereuse()
+    elif args.net == 'cheapV3':
+        from models.cheapV3 import cheapV3
+        net = cheapV3()
 
     else:
         print('the network name you have entered is not supported yet')
