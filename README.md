@@ -1,4 +1,4 @@
-# Do Networks really need so many different feature maps ?
+# Do networks really need so many different feature maps ?
 
 ## Introduction
 
