@@ -6,7 +6,7 @@ This project aims to explore how to use feature maps efficiently.
 
 A new free operation ` Reuse` is proposed to replace the 1x1 convolution for increasing the dimension of feature map.
 
-We applied our new proposed operations on three well-known networks, they are ` MobileNetV2` ` MobileNetV3` ` SqueezeNet` 
+We applied our new proposed operation on three well-known networks, they are ` MobileNetV2` ` MobileNetV3` ` SqueezeNet` 
 
 The Datasets we have already used by now are ` cifar10`  ` cifar100`  `tiny-imagenet ` 
 
