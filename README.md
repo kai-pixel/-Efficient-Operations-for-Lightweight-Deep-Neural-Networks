@@ -27,27 +27,26 @@
 
 
 
-`Step two: model summary`
+`Step two: model summary(optional)`
 
-1.  pip install tensorboardX 
 
-2.  pip install flopth 
+1.  pip install flopth 
 
-3.  pip install torchsummary 
+2.  pip install torchsummary 
 
-4.  pip install thop 
+3.  pip install thop 
 
-5.  %cd path to .../Efficient-Operations-for-Lightweight-Deep-Neural-Networks/Cifar100/models 
+4.  %cd path to .../Efficient-Operations-for-Lightweight-Deep-Neural-Networks/Cifar100/models 
 
-6.  %run net.py 
+5.  %run net.py 
 
-(looks like this:
+looks like this:
 
 `%cd /content/drive/My Drive/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/Cifar100/models`
 
 `%run cheapV3.py`
 
-)
+
 
 
 `Step three: Train and Test`
@@ -56,7 +55,7 @@
 
 2.  run main.py and choose gpu(cuda device) and give the netname 
 
-(looks like this:
+looks like this:
 
 `%cd /content/drive/My Drive/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/Cifar100`
 
@@ -64,4 +63,4 @@
 
 `%run main.py -net cheapV3`
 
-)
+
