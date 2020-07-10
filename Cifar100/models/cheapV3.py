@@ -59,7 +59,8 @@ class SEModule(nn.Module):
         self.fc = nn.Sequential(
             nn.Linear(in_channels_num, in_channels_num // reduction_ratio, bias=False),
             nn.ReLU(inplace=True),
-            reuse4()
+            reuse4(),
+            H_sigmoid()
         )
 
     def forward(self, x):
@@ -300,6 +301,7 @@ class cheapV3(nn.Module):
             for m in self.modules():
 	            if hasattr(m, 'lastBN'):
 	                nn.init.constant_(m.lastBN.weight, 0.0)
+
 
 
 def test():
