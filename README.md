@@ -36,7 +36,7 @@ We are going further to test models with our proposed free operation `Reuse` on 
 
 
 
-### `Step two: model summary(optional)`
+#### `Step two: model summary(optional)`
 
 
 1.  pip install flopth 
@@ -58,7 +58,7 @@ looks like this:
 
 
 
-### `Step three: Train and Test`
+#### `Step three: Train and Test`
 
 1.  %cd path to .../Efficient-Operations-for-Lightweight-Deep-Neural-Networks/Cifar100 
 
