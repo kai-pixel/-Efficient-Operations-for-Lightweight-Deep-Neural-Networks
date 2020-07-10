@@ -49,7 +49,8 @@ We are further testing models with our proposed free operation `Reuse` on datase
 
 5.  %run net.py 
 
-  looks like this:
+
+looks like this:
 
 `%cd /content/drive/My Drive/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/Cifar100/models`
 
@@ -64,7 +65,8 @@ We are further testing models with our proposed free operation `Reuse` on datase
 
 2.  run main.py and choose gpu(cuda device) and give the netname 
 
-  looks like this:
+
+looks like this:
 
 `%cd /content/drive/My Drive/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/Cifar100`
 
