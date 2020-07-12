@@ -74,6 +74,18 @@ looks like this:
 
 `%run main.py -net cheapV3`
 
+
+## If you want to test the best models on cifar 100 after training:
+
+looks like this:
+
+`%cd /content/drive/My Drive/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/Cifar100`
+
+`%run test.py -net MobileNetV3 -weights 'path/to/checkpoint/models/MobileNetV3-165-best.pth`
+
+
+
+
 ## Model Description
 
 1. `MobileNetV3`: the original net from google. (mode='large', width_multiplier=1.0, dropout=0.2, BN_momentum=0.1, zero_gamma=False)
