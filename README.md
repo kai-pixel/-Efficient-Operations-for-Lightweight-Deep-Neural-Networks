@@ -80,7 +80,7 @@ looks like this:
 
 2. `cheapV3`: we modified the original net `MobileNetV3` with the pure `Reuse` operation.
 
-3. `cheapV3_shuffle`: we modified the original net `MobileNetV3` with the upgrade `Reuse` operation.
+3. `cheapV3_shuffle`: we modified the original net `MobileNetV3` with the ` upgrade Reuse` operation.
 
 
 ## Results Table
