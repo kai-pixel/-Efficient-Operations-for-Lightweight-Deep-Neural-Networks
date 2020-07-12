@@ -86,6 +86,3 @@ looks like this:
 | cheapV3_shuffle     | 25.74   | 6.73    |
 ## Runs on Tensorboard
 
-
-![image]()
-![image]()
