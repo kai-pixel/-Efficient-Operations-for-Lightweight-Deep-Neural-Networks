@@ -27,7 +27,6 @@ import torchvision
 import torchvision.transforms as transforms
 
 from torch.autograd import Variable
-
 from tensorboardX import SummaryWriter
 
 
@@ -69,6 +68,18 @@ def get_network(args, use_gpu=True):
     elif args.net == 'cheapV3':
         from models.cheapV3 import cheapV3
         net = cheapV3()
+    
+    elif args.net == 'cheapV3_shuffle':
+        from models.cheapV3_shuffle import cheapV3_shuffle
+        net = cheapV3_shuffle()
+        
+    elif args.net == 'MobileNetV2':
+        from models.MobileNetV2 import MobileNetV2
+        net = MobileNetV2()
+        
+    elif args.net == 'cheapV2':
+        from models.cheapV2 import cheapV2
+        net = cheapV2()
 
     else:
         print('the network name you have entered is not supported yet')
