@@ -76,11 +76,11 @@ looks like this:
 
 ## Model Description
 
-1. `MobileNetV3` is the original net (mode='large', classes_num=100, input_size=32, width_multiplier=1.0, dropout=0.2, BN_momentum=0.1, zero_gamma=False)
+1. `MobileNetV3`: the original net from google. (mode='large', width_multiplier=1.0, dropout=0.2, BN_momentum=0.1, zero_gamma=False)
 
-2. `cheapV3` use the original `Reuse` operation
+2. `cheapV3`: the net with pure original `Reuse` operation
 
-3. `cheapV3_shuffle` use the update `Reuse` operation
+3. `cheapV3_shuffle`: we upgrade `Reuse` operation 
 
 
 ## Results Table
