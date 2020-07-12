@@ -88,3 +88,4 @@ looks like this:
 
 
 ![image](https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/Test_Accuracy.jpg)
+![image](https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/Test_Accuracy.png)
