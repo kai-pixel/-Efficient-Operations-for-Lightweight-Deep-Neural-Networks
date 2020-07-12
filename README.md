@@ -89,5 +89,5 @@ looks like this:
 #### Test Accuracy
 ![image](https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/Test%20Accuracy.png)
 
-#### local zoom on pic of Test Accuracy
+#### Test Accuracy(local zoom)
 ![image](https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/local%20zoom%20to%20Test%20Accuracy.png)
