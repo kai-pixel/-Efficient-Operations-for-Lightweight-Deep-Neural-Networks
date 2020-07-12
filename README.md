@@ -84,7 +84,8 @@ looks like this:
 | MobileNetV3     | 26.5    | 6.12    |
 | cheapV3     | 25.88     | 6.7    |
 | cheapV3_shuffle     | 25.74   | 6.73    |
-## Runs on Tensorboard
+
+## Runs on Tensorboard(`MobileNetV3` `cheapV3` `cheapV3_shuffle`)
 
 #### Test Accuracy
 ![image](https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/Test%20Accuracy.png)
