@@ -90,7 +90,7 @@ looks like this:
 ![image](https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/Test%20Accuracy.png)
 
 #### Test Accuracy(local zoom)
-![image](https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/local%20zoom%20to%20Test%20Accuracy.png)
+![image]()
 
 #### Train Loss
-![image](https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/Train%20Loss.png)
+![image]()
