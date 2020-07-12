@@ -86,3 +86,5 @@ looks like this:
 | cheapV3_shuffle     | 25.74   | 6.73    |
 ## Runs on Tensorboard
 
+
+https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/Test_Accuracy.jpg
