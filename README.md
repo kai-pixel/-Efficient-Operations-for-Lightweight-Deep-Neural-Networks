@@ -78,9 +78,9 @@ looks like this:
 
 1. `MobileNetV3`: the original net from google. (mode='large', width_multiplier=1.0, dropout=0.2, BN_momentum=0.1, zero_gamma=False)
 
-2. `cheapV3`: the net with pure original `Reuse` operation
+2. `cheapV3`: we modified the original net `MobileNetV3` with the pure `Reuse` operation.
 
-3. `cheapV3_shuffle`: we upgrade `Reuse` operation 
+3. `cheapV3_shuffle`: we modified the original net `MobileNetV3` with the upgrade `Reuse` operation.
 
 
 ## Results Table
