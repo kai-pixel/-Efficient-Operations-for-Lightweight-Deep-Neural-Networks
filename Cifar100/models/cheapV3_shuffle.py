@@ -189,7 +189,7 @@ class Bottleneck(nn.Module):
             return self.conv(x)
 
 
-class cheapV3_8(nn.Module):
+class cheapV3_shuffle(nn.Module):
     '''
     
     '''
@@ -198,7 +198,7 @@ class cheapV3_8(nn.Module):
         configs: setting of the model
         mode: type of the model, 'large' or 'small'
         '''
-        super(cheapV3_8, self).__init__()
+        super(cheapV3_shuffle, self).__init__()
 
         mode = mode.lower()
         assert mode in ['large', 'small']
@@ -338,7 +338,7 @@ class cheapV3_8(nn.Module):
 
 
 def test():
-    net = cheapV3_8()
+    net = cheapV3_shuffle()
     print(net)
 
     x = torch.randn(2,3,224,224)
