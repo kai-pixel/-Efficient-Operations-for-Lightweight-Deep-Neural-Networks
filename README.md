@@ -87,4 +87,4 @@ looks like this:
 ## Runs on Tensorboard
 
 
-https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/Test_Accuracy.jpg
+![image] https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/Test_Accuracy.jpg
