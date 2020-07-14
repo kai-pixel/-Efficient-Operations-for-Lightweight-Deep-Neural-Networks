@@ -95,9 +95,11 @@ looks like this:
 3. `cheapV3_shuffle`: we modified the original net `MobileNetV3` with the ` upgrade Reuse` operation.
 
 
-## Results Table the for Test on cifar100
+## Results Table the for Test on cifar100\
 
-|  cifar100   | top1 error   | top5 error    |
+###(we rank the best models by top1 error, not by top5 error)
+
+|  cifar100   | top1 error   | top5 error  corresponding  |
 | ---------- | :-----------:  | :-----------: |
 | MobileNetV2   | 31.5     | 9.01     |
 | cheapV2     | 28.76     | 8.13     |
