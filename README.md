@@ -97,7 +97,7 @@ looks like this:
 
 ## Results Table the for Test on cifar100\
 
-###(we rank the best models by top1 error, not by top5 error)
+###(we rank the best models by top1 error, not by top5 error，which means the following top5 error is not the best performance of our model)
 
 |  cifar100   | top1 error   | top5 error  corresponding  |
 | ---------- | :-----------:  | :-----------: |
