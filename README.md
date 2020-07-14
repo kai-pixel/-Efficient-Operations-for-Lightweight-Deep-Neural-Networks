@@ -97,14 +97,14 @@ looks like this:
 
 ## Results Table the for Test on cifar100
 
-|  cifar100   | top1 error   | top5 error   |
+|  cifar100   | top1 error   | top5 error    |
 | ---------- | :-----------:  | :-----------: |
 | MobileNetV2   | 31.5     | 9.01     |
 | cheapV2     | 28.76     | 8.13     |
 | MobileNetV3     | 26.5    | 6.12    |
 | cheapV3     | 25.88     | 6.7    |
 | cheapV3_shuffle(g=input_channel)     | 25.74   | 6.73    |
-| cheapV3_shuffle(g=6)     | 25.35   | 6.76    |
+| cheapV3_shuffle(g=6)     | 25.03   | 7.13   |
 
 ## Runs on Tensorboard(`MobileNetV3` `cheapV3` `cheapV3_shuffle`)
 
