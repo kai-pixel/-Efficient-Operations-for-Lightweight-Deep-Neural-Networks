@@ -97,7 +97,7 @@ looks like this:
 
 ## Results Table the for Test on cifar100\
 
-###(we rank the best models by top1 error, not by top5 error，which means the following top5 error is not the best performance of our model)
+###(we rank the best models by top1 error, not by top5 error，which means the following top5 error is `not the best performance of our model`)
 
 |  cifar100   | top1 error   | top5 error  corresponding  |
 | ---------- | :-----------:  | :-----------: |
@@ -106,7 +106,7 @@ looks like this:
 | MobileNetV3     | 26.5    | 6.12    |
 | cheapV3     | 25.88     | 6.7    |
 | cheapV3_shuffle(g=input_channel)     | 25.74   | 6.73    |
-| cheapV3_shuffle(g=6)     | 25.03   | 7.13   |
+| cheapV3_shuffle(g=6)     | 24.82  | 7.17   |
 
 ## Runs on Tensorboard(`MobileNetV3` `cheapV3` `cheapV3_shuffle`)
 
