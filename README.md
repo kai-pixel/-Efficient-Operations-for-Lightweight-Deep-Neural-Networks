@@ -75,7 +75,7 @@ looks like this:
 `%run main.py -net cheapV3`
 
 
-## If you want to test the best models on cifar 100 after training:
+## If you want to test the best models on cifar 100 after train:
 
 looks like this:
 
