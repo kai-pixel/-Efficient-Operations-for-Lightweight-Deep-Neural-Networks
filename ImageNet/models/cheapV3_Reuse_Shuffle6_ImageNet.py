@@ -189,16 +189,16 @@ class Bottleneck(nn.Module):
             return self.conv(x)
 
 
-class cheapV3_Reuse_Shuffle6(nn.Module):
+class cheapV3_Reuse_Shuffle6_ImageNet(nn.Module):
     '''
     
     '''
-    def __init__(self, mode='large', classes_num=1000, input_size=224, width_multiplier=1.0, dropout=0.2, BN_momentum=0.1, zero_gamma=False):
+    def __init__(self, mode='large', classes_num=1000, input_size=224, width_multiplier=1.0, BN_momentum=0.1, zero_gamma=False):
         '''
         configs: setting of the model
         mode: type of the model, 'large' or 'small'
         '''
-        super(cheapV3_Reuse_Shuffle6, self).__init__()
+        super(cheapV3_Reuse_Shuffle6_ImageNet, self).__init__()
 
         mode = mode.lower()
         assert mode in ['large', 'small']
@@ -302,7 +302,6 @@ class cheapV3_Reuse_Shuffle6(nn.Module):
         ########################################################################################################################
         # Classification part
         self.classifier = nn.Sequential(
-            nn.Dropout(p=dropout),
             nn.Linear(last_channels_num, classes_num)
         )
 
@@ -340,7 +339,7 @@ class cheapV3_Reuse_Shuffle6(nn.Module):
 
 
 def test():
-    net = cheapV3_Reuse_Shuffle6()
+    net = cheapV3_Reuse_Shuffle6_ImageNet()
     #print(net)
 
     x = torch.randn(2,3,224,224)
