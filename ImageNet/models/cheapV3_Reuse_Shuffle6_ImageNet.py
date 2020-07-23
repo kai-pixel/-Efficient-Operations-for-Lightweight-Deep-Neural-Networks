@@ -265,8 +265,9 @@ class cheapV3_Reuse_Shuffle6_ImageNet(nn.Module):
             reuse2(),
             nn.Conv2d(in_channels=24, out_channels=24, kernel_size=3, stride=s, padding=1, bias=False),
             nn.BatchNorm2d(num_features=24, momentum=BN_momentum),
-            #nn.Conv2d(in_channels=48, out_channels=input_channels_num, kernel_size=1, stride=1, padding=0, bias=False),
-            #nn.BatchNorm2d(num_features=input_channels_num, momentum=BN_momentum),
+            reuse2(),
+            nn.Conv2d(in_channels=48, out_channels=input_channels_num, kernel_size=1, stride=1, padding=0, bias=False),
+            nn.BatchNorm2d(num_features=input_channels_num, momentum=BN_momentum),
             H_swish()
         )
         feature_extraction_layers.append(first_layer)
