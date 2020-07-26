@@ -6,7 +6,7 @@ from collections import OrderedDict
 
 #from thop import profile
 #from torchsummary import summary
-from flopth import flopth
+#from flopth import flopth
 
 
 def channel_shuffle(x, groups):
