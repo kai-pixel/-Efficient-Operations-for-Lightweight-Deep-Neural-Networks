@@ -1,3 +1,30 @@
+
+from __future__ import print_function
+
+import argparse
+import os
+import random
+import shutil
+import time
+import warnings
+import sys
+
+import torch
+import torch.nn as nn
+import torch.nn.parallel
+import torch.backends.cudnn as cudnn
+import torch.distributed as dist
+import torch.optim
+import torch.utils.data
+import torch.utils.data.distributed
+import torchvision.transforms as transforms
+import torchvision.datasets as datasets
+from torch.autograd import Variable
+
+from utils import Bar, Logger, AverageMeter, accuracy, mkdir_p, savefig
+#from utils.dataloaders import *
+from tensorboardX import SummaryWriter
+################################################################################################# net
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -356,3 +383,409 @@ def test():
     #summary(net,input_size=(3, 224, 224))
     #print(flopth(net,in_size=(3,224,224)))
 #test()
+################################################################################################################
+################################################################################################ parse argument
+parser = argparse.ArgumentParser(description='PyTorch ImageNet Training')
+
+parser.add_argument('-d', '--data', metavar='DIR',default='/input/ILSVRC2012',
+                    help='path to dataset')
+parser.add_argument('--data-backend', metavar='BACKEND', default='pytorch',
+                    )
+#parser.add_argument('-m', '--model' type=str, default='cheapV3_Reuse_Shuffle6_ImageNet', required=True, help='net type')
+parser.add_argument('-j', '--workers', default=8, type=int, metavar='N',
+                    help='number of data loading workers (default: 4)')
+parser.add_argument('--epochs', default=150, type=int, metavar='N',
+                    help='number of total epochs to run')
+parser.add_argument('--start-epoch', default=0, type=int, metavar='N',
+                    help='manual epoch number (useful on restarts)')
+parser.add_argument('-b', '--batch-size', default=256, type=int,
+                    metavar='N',
+                    help='mini-batch size (default: 256), this is the total '
+                         'batch size of all GPUs on the current node when '
+                         'using Data Parallel or Distributed Data Parallel')
+parser.add_argument('--lr', '--learning-rate', default=0.05, type=float,
+                    metavar='LR', help='initial learning rate', dest='lr')
+parser.add_argument('--momentum', default=0.9, type=float, metavar='M',
+                    help='momentum')
+parser.add_argument('--wd', '--weight-decay', default=4e-5, type=float,
+                    metavar='W', help='weight decay (default: 1e-4)',
+                    dest='weight_decay')
+parser.add_argument('-p', '--print-freq', default=1, type=int,
+                    metavar='N', help='print frequency (default: 10)')
+parser.add_argument('--resume', default='', type=str, metavar='PATH',
+                    help='path to latest checkpoint (default: none)')
+
+parser.add_argument('-e', '--evaluate', dest='evaluate', action='store_true',
+                    help='evaluate model on validation set')
+
+parser.add_argument('--lr-decay', type=str, default='cos',
+                    help='mode for learning rate decay')
+parser.add_argument('--step', type=int, default=30,
+                    help='interval for learning rate decay in step mode')
+parser.add_argument('--schedule', type=int, nargs='+', default=[150, 225],
+                    help='decrease learning rate at these epochs.')
+parser.add_argument('--gamma', type=float, default=0.1,
+                    help='LR is multiplied by gamma on schedule.')
+parser.add_argument('--warmup', action='store_true',
+                    help='set lower initial learning rate to warm up the training')
+
+parser.add_argument('-c', '--checkpoint', default='/ImageNet/V3_Reuse6_Shuffle6_OL_checkpoint', type=str, metavar='PATH',
+                    help='path to save checkpoint (default: checkpoint)')
+
+parser.add_argument('--width-mult', type=float, default=1.0, help='MobileNet model width multiplier.')
+parser.add_argument('--input-size', type=int, default=224, help='MobileNet model input resolution')
+#################################################################################################  data loading
+DATA_BACKEND_CHOICES = ['pytorch']
+normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],std=[0.229, 0.224, 0.225])
+args = parser.parse_args()
+
+def get_pytorch_train_loader(data_path, batch_size, workers=4, input_size=224):
+    traindir = os.path.join(data_path, 'train')
+    train_dataset = datasets.ImageFolder(
+            traindir,
+            transforms.Compose([
+                transforms.RandomResizedCrop(input_size),
+                transforms.RandomHorizontalFlip(),
+                transforms.ToTensor(),
+                normalize,
+                ]))
+
+    train_loader = torch.utils.data.DataLoader(
+            train_dataset, batch_size=batch_size, shuffle=True,
+            num_workers=workers, pin_memory=True)
+
+    return train_loader, len(train_loader)
+
+def get_pytorch_val_loader(data_path, batch_size, workers=4, input_size=224):
+    valdir = os.path.join(data_path, 'val')
+    val_dataset = datasets.ImageFolder(
+            valdir, transforms.Compose([
+                transforms.Resize(int(input_size / 0.875)),
+                transforms.CenterCrop(input_size),
+                transforms.ToTensor(),
+                normalize,
+                ]))
+
+
+    val_loader = torch.utils.data.DataLoader(
+            val_dataset,
+            batch_size=batch_size, shuffle=False,
+            num_workers=workers, pin_memory=True)
+
+    return val_loader, len(val_loader)
+
+train_loader, train_loader_len = get_pytorch_train_loader(args.data, args.batch_size, workers=args.workers, input_size=args.input_size)
+val_loader, val_loader_len = get_pytorch_val_loader(args.data, args.batch_size, workers=args.workers, input_size=args.input_size)
+
+########################################################################################################################## 
+################################################################################################################## global settings
+
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+best_prec1 = 0
+
+
+
+##################################################################################################################### main
+def main():
+    global args, best_prec1
+    args = parser.parse_args()
+    
+    # create model
+    print("=> creating model")
+    model = V3_Reuse6_Shuffle6_OL()#1
+    print(model)
+    
+    
+    #gpu
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    model = model.to(device)
+    if device == 'cuda':
+        model = torch.nn.DataParallel(model) # make parallel
+        #cudnn.benchmark = True
+        
+    cudnn.benchmark = True
+    
+
+    
+    #loss and optimizer
+    criterion = nn.CrossEntropyLoss().to(device)
+    optimizer = torch.optim.SGD(model.parameters(), args.lr,
+                                momentum=args.momentum,
+                                weight_decay=args.weight_decay)
+    
+    
+     # optionally resume from a checkpoint
+    title = 'ImageNet-' + 'V3_Reuse6_Shuffle6_OL'#2
+    if not os.path.isdir(args.checkpoint):
+        mkdir_p(args.checkpoint)
+
+    if args.resume:
+        if os.path.isfile(args.resume):
+            print("=> loading checkpoint '{}'".format(args.resume))
+            checkpoint = torch.load(args.resume)
+            args.start_epoch = checkpoint['epoch']
+            best_prec1 = checkpoint['best_prec1']
+            model.load_state_dict(checkpoint['state_dict'])
+            optimizer.load_state_dict(checkpoint['optimizer'])
+            print("=> loaded checkpoint '{}' (epoch {})"
+                  .format(args.resume, checkpoint['epoch']))
+            args.checkpoint = os.path.dirname(args.resume)
+            logger = Logger(os.path.join(args.checkpoint, 'V3_Reuse6_Shuffle6_OL_log.txt'), title=title, resume=True)#3
+        else:
+            print("=> no checkpoint found at '{}'".format(args.resume))
+    else:
+        logger = Logger(os.path.join(args.checkpoint, 'V3_Reuse6_Shuffle6_OL_log.txt'), title=title)#4
+        logger.set_names(['Learning Rate', 'Train Loss', 'Valid Loss', 'Train Acc.', 'Valid Acc.'])
+        
+        
+        # Data loading code
+    if args.data_backend == 'pytorch':
+        get_train_loader = get_pytorch_train_loader
+        get_val_loader = get_pytorch_val_loader
+    
+    train_loader, train_loader_len = get_train_loader(args.data, args.batch_size, workers=args.workers, input_size=args.input_size)
+    val_loader, val_loader_len = get_val_loader(args.data, args.batch_size, workers=args.workers, input_size=args.input_size)
+
+    if args.evaluate:
+        from collections import OrderedDict
+        if os.path.isfile(args.weight):
+            print("=> loading pretrained weight '{}'".format(args.weight))
+            source_state = torch.load(args.weight)
+            target_state = OrderedDict()
+            for k, v in source_state.items():
+                if k[:7] != 'module.':
+                    k = 'module.' + k
+                target_state[k] = v
+            model.load_state_dict(target_state)
+        else:
+            print("=> no weight found at '{}'".format(args.weight))
+
+        validate(val_loader, val_loader_len, model, criterion)
+        return
+
+    # visualization
+    writer = SummaryWriter(os.path.join(args.checkpoint, 'V3_Reuse6_Shuffle6_OL_logs'))#5
+
+    for epoch in range(args.start_epoch, args.epochs):
+
+        print('\nEpoch: [%d | %d]' % (epoch + 1, args.epochs))
+
+        # train for one epoch
+        train_loss, train_acc = train(train_loader, train_loader_len, model, criterion, optimizer, epoch)
+        print(train_acc)
+        sys.stdout.flush()
+        print(train_loss)
+        sys.stdout.flush()
+
+        # evaluate on validation set
+        val_loss, prec1 = validate(val_loader, val_loader_len, model, criterion)
+        print(val_loss)
+        sys.stdout.flush()
+        print(prec1)
+        sys.stdout.flush()
+        
+        lr = optimizer.param_groups[0]['lr']
+
+        # append logger file
+        logger.append([lr, train_loss, val_loss, train_acc, prec1])
+
+        # tensorboardX
+        writer.add_scalar('V3_Reuse6_Shuffle6_OL_learning rate', lr, epoch + 1)#6
+        writer.add_scalars('cheapV3_Reuse_Shuffle6_ImageNetD_loss', {'V3_Reuse6_Shuffle6_OL_train loss': train_loss, 'validation loss': val_loss}, epoch + 1)#7
+        writer.add_scalars('cheapV3_Reuse_Shuffle6_ImageNetD_accuracy', {'V3_Reuse6_Shuffle6_OL_train accuracy': train_acc, 'validation accuracy': prec1}, epoch + 1)#8
+
+        is_best = prec1 > best_prec1
+        best_prec1 = max(prec1, best_prec1)
+        save_checkpoint({
+            'epoch': epoch + 1,
+            'state_dict': model.state_dict(),
+            'best_prec1': best_prec1,
+            'optimizer' : optimizer.state_dict(),
+        }, is_best, checkpoint=args.checkpoint)
+
+    logger.close()
+    logger.plot()
+    savefig(os.path.join(args.checkpoint, 'log.eps'))
+    writer.close()
+
+    print('Best accuracy:')
+    sys.stdout.flush()
+    print(best_prec1)
+    sys.stdout.flush()
+
+
+def train(train_loader, train_loader_len, model, criterion, optimizer, epoch):
+    
+
+    batch_time = AverageMeter()
+    data_time = AverageMeter()
+    losses = AverageMeter()
+    top1 = AverageMeter()
+    top5 = AverageMeter()
+
+    # switch to train mode
+    model.train()
+
+    end = time.time()
+    bar = Bar('Processing', max=len(train_loader))
+    for i, (inputs, targets) in enumerate(train_loader):
+        adjust_learning_rate(optimizer, epoch, i, train_loader_len)
+
+        # measure data loading time
+        data_time.update(time.time() - end)
+        
+        
+        inputs, targets = inputs.cuda(), targets.cuda(async=True)
+        inputs, targets = torch.autograd.Variable(inputs), torch.autograd.Variable(targets)
+        targets = targets - 1
+
+
+        # compute output
+        outputs = model(inputs)
+        
+        loss = criterion(outputs, targets)
+
+        # measure accuracy and record loss
+        prec1, prec5 = accuracy(outputs.data, targets.data, topk=(1, 5))
+        losses.update(loss.item(), inputs.size(0))
+        top1.update(prec1.item(), inputs.size(0))
+        top5.update(prec5.item(), inputs.size(0))
+        
+        # compute gradient and do SGD step
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        # measure elapsed time
+        batch_time.update(time.time() - end)
+        end = time.time()
+        
+        print('({batch}/{size}) Data: {data:.3f}s | Batch: {bt:.3f}s | Total: {total:} | ETA: {eta:} | Loss: {loss:.4f} | top1: {top1: .4f} | top5: {top5: .4f}'.format(
+                    batch=i + 1,
+                    size=train_loader_len,
+                    data=data_time.avg,
+                    bt=batch_time.avg,
+                    total=bar.elapsed_td,
+                    eta=bar.eta_td,
+                    loss=losses.avg,
+                    top1=top1.avg,
+                    top5=top5.avg,
+                    )
+             )
+        sys.stdout.flush()
+
+
+        # plot progress
+        '''bar.suffix  = '({batch}/{size}) Data: {data:.3f}s | Batch: {bt:.3f}s | Total: {total:} | ETA: {eta:} | Loss: {loss:.4f} | top1: {top1: .4f} | top5: {top5: .4f}'.format(
+                    batch=i + 1,
+                    size=train_loader_len,
+                    data=data_time.avg,
+                    bt=batch_time.avg,
+                    total=bar.elapsed_td,
+                    eta=bar.eta_td,
+                    loss=losses.avg,
+                    top1=top1.avg,
+                    top5=top5.avg,
+                    )
+        bar.next()
+    bar.finish()'''
+    return (losses.avg, top1.avg)
+
+
+def validate(val_loader, val_loader_len, model, criterion):    
+    global best_acc
+    batch_time = AverageMeter()
+    data_time = AverageMeter()
+    losses = AverageMeter()
+    top1 = AverageMeter()
+    top5 = AverageMeter()
+
+    # switch to evaluate mode
+    model.eval()
+
+    end = time.time()
+    bar = Bar('Processing', max=len(val_loader))
+    with torch.no_grad():
+        for i, (inputs, targets) in enumerate(val_loader):
+        # measure data loading time
+            data_time.update(time.time() - end)
+        
+        
+            inputs, targets = inputs.cuda(), targets.cuda()
+            inputs, targets = torch.autograd.Variable(inputs, volatile=True), torch.autograd.Variable(targets)
+            targets = targets - 1
+        
+
+
+            outputs = model(inputs)
+            loss = criterion(outputs, targets)
+
+            # measure accuracy and record loss        
+            prec1, prec5 = accuracy(outputs.data, targets.data, topk=(1, 5))
+            losses.update(loss.item(), inputs.size(0))
+            top1.update(prec1.item(), inputs.size(0))
+            top5.update(prec5.item(), inputs.size(0))
+            
+
+            # measure elapsed time
+            batch_time.update(time.time() - end)
+            end = time.time()
+        
+            print('({batch}/{size}) Data: {data:.3f}s | Batch: {bt:.3f}s | Total: {total:} | ETA: {eta:} | Loss: {loss:.4f} | top1: {top1: .4f} | top5: {top5: .4f}'.format(
+                    batch=i + 1,
+                    size=val_loader_len,
+                    data=data_time.avg,
+                    bt=batch_time.avg,
+                    total=bar.elapsed_td,
+                    eta=bar.eta_td,
+                    loss=losses.avg,
+                    top1=top1.avg,
+                    top5=top5.avg,
+                    )    )
+            sys.stdout.flush()
+        return (losses.avg, top1.avg)
+
+
+def save_checkpoint(state, is_best, checkpoint='checkpoint', filename='V3_Reuse6_Shuffle6_OL_checkpoint.pth.tar'):#9
+    filepath = os.path.join(checkpoint, filename)
+    torch.save(state, filepath)
+    if is_best:
+        shutil.copyfile(filepath, os.path.join(checkpoint, 'V3_Reuse6_Shuffle6_OL_model_best.pth.tar'))#10
+
+
+from math import cos, pi
+def adjust_learning_rate(optimizer, epoch, iteration, num_iter):
+    lr = optimizer.param_groups[0]['lr']
+
+    warmup_epoch = 5 if args.warmup else 0
+    warmup_iter = warmup_epoch * num_iter
+    current_iter = iteration + epoch * num_iter
+    max_iter = args.epochs * num_iter
+
+    if args.lr_decay == 'step':
+        lr = args.lr * (args.gamma ** ((current_iter - warmup_iter) // (max_iter - warmup_iter)))
+    elif args.lr_decay == 'cos':
+        lr = args.lr * (1 + cos(pi * (current_iter - warmup_iter) / (max_iter - warmup_iter))) / 2
+    elif args.lr_decay == 'linear':
+        lr = args.lr * (1 - (current_iter - warmup_iter) / (max_iter - warmup_iter))
+    elif args.lr_decay == 'schedule':
+        count = sum([1 for s in args.schedule if s <= epoch])
+        lr = args.lr * pow(args.gamma, count)
+    else:
+        raise ValueError('Unknown lr mode {}'.format(args.lr_decay))
+
+    if epoch < warmup_epoch:
+        lr = args.lr * current_iter / warmup_iter
+
+
+    for param_group in optimizer.param_groups:
+        param_group['lr'] = lr
+
+
+if __name__ == '__main__':
+    main()
+
+
+
