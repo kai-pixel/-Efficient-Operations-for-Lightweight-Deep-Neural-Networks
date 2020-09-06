@@ -87,6 +87,14 @@ class SEModule(nn.Module):
         y = self.avg_pool(x).view(batch_size, channel_num)
         y = self.fc(y).view(batch_size, channel_num, 1, 1)
         return x * y
+    
+class reuse10(nn.Module):
+   def __init__(self):
+       super(reuse10,self).__init__()
+
+   def forward(self, x):
+     out = torch.cat((x,x,x,x,x,x,x,x,x,x),dim=1)
+     return out
 
 class reuse6A(nn.Module):
    def __init__(self,in_channels_num):
@@ -189,23 +197,21 @@ class Bottleneck(nn.Module):
             return self.conv(x)
 
 
-class cheapV3_Reuse_Shuffle6_ImageNet(nn.Module):
-    '''
-    
-    '''
+class V3_Reuse6_Shuffle6_OL(nn.Module):
+
     def __init__(self, mode='large', classes_num=1000, input_size=224, width_multiplier=1.0, BN_momentum=0.1, zero_gamma=False):
         '''
         configs: setting of the model
         mode: type of the model, 'large' or 'small'
         '''
-        super(cheapV3_Reuse_Shuffle6_ImageNet, self).__init__()
+        super(V3_Reuse6_Shuffle6_OL, self).__init__()
 
         mode = mode.lower()
         assert mode in ['large', 'small']
         s = 2
-        if input_size == 32 or input_size == 56:
-            # using cifar-10, cifar-100 or Tiny-ImageNet
-            s = 1
+        #if input_size == 32 or input_size == 56:
+         #   # using cifar-10, cifar-100 or Tiny-ImageNet
+          #  s = 1
 
         # setting of the model
         if mode == 'large':
@@ -250,7 +256,7 @@ class cheapV3_Reuse_Shuffle6_ImageNet(nn.Module):
         # last_channels_num = 1280
         # according to https://github.com/tensorflow/models/blob/master/research/slim/nets/mobilenet/mobilenet_v3.py
         # if small -- 1024, if large -- 1280
-        last_channels_num = 2160 if mode == 'large' else 1024
+        last_channels_num = 1280 if mode == 'large' else 1024
 
         divisor = 4
 
@@ -261,11 +267,14 @@ class cheapV3_Reuse_Shuffle6_ImageNet(nn.Module):
         last_channels_num = _ensure_divisible(last_channels_num * width_multiplier, divisor) if width_multiplier > 1 else last_channels_num
         feature_extraction_layers = []
         first_layer = nn.Sequential(
-            reuse4(),
-            nn.Conv2d(in_channels=12, out_channels=12, kernel_size=3, stride=s, padding=1, bias=False),
-            nn.BatchNorm2d(num_features=12, momentum=BN_momentum),
-            reuse4(),
-            nn.Conv2d(in_channels=48, out_channels=input_channels_num, kernel_size=1, stride=1, padding=0, bias=False),
+            #reuse4(),
+            #nn.Conv2d(in_channels=12, out_channels=12, kernel_size=3, stride=s, padding=1, bias=False),
+            #nn.BatchNorm2d(num_features=12, momentum=BN_momentum),
+            #reuse4(),
+            #nn.Conv2d(in_channels=48, out_channels=input_channels_num, kernel_size=1, stride=1, padding=0, bias=False),
+            #nn.BatchNorm2d(num_features=input_channels_num, momentum=BN_momentum),
+            #H_swish()
+            nn.Conv2d(in_channels=3, out_channels=input_channels_num, kernel_size=3, stride=s, padding=1, bias=False),
             nn.BatchNorm2d(num_features=input_channels_num, momentum=BN_momentum),
             H_swish()
         )
@@ -280,9 +289,8 @@ class cheapV3_Reuse_Shuffle6_ImageNet(nn.Module):
         # the last stage
         last_stage_channels_num = _ensure_divisible(exp_size * width_multiplier, divisor)
         last_stage_layer1 = nn.Sequential(
-                #nn.Conv2d(in_channels=input_channels_num, out_channels=last_stage_channels_num, kernel_size=1, stride=1, padding=0, bias=False),
-                #nn.BatchNorm2d(num_features=last_stage_channels_num, momentum=BN_momentum),
-                reuse6(),
+                nn.Conv2d(in_channels=input_channels_num, out_channels=last_stage_channels_num, kernel_size=1, stride=1, padding=0, bias=False),
+                nn.BatchNorm2d(num_features=last_stage_channels_num, momentum=BN_momentum),
                 H_swish()
             )
         feature_extraction_layers.append(last_stage_layer1)
@@ -292,11 +300,10 @@ class cheapV3_Reuse_Shuffle6_ImageNet(nn.Module):
         # feature_extraction_layers.append(SEModule(last_stage_channels_num) if mode == 'small' else nn.Sequential())
 
         feature_extraction_layers.append(nn.AdaptiveAvgPool2d(1))
-        feature_extraction_layers.append(reuse2())
+        feature_extraction_layers.append(nn.Conv2d(in_channels=last_stage_channels_num, out_channels=last_channels_num, kernel_size=1, stride=1, padding=0, bias=False))
         feature_extraction_layers.append(H_swish())
 
         self.features = nn.Sequential(*feature_extraction_layers)
-
         ########################################################################################################################
         # Classification part
         self.classifier = nn.Sequential(
@@ -337,7 +344,7 @@ class cheapV3_Reuse_Shuffle6_ImageNet(nn.Module):
 
 
 def test():
-    net = cheapV3_Reuse_Shuffle6_ImageNet()
+    net = V3_Reuse6_Shuffle6_OL()
     #print(net)
 
     x = torch.randn(2,3,224,224)
