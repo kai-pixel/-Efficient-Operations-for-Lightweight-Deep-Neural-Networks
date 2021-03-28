@@ -51,7 +51,7 @@
 
 4. the shortcut of MobileNetV2
 
-5.the Last-Stage
+5. the Last-Stage
 
 6. SE-Module in MobileNetV3
 
