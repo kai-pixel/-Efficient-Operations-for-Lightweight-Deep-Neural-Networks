@@ -56,10 +56,10 @@
 6. SE-Module in MobileNetV3
 
 ### The modificaiton positions in MobileNetV2
-![image](https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/target mobilenetv2.png)
+![image](https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/target%20mobilenetv2.png)
 
 ### The modificaiton positions in MobileNetV3
-![image](https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/target mobilenetv3.png)
+![image](https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/target%20mobilenetv3.png)
 
 ## Results Table the for Test on cifar100\
 
