@@ -63,11 +63,11 @@
 
 ## Image-Classification result of the modifications\
 ### Results of the modifications target MobileNetV2 on Cifar\
-![image](https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/target%20mobilenetv3.png)
+![image](https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/experimental%20results%20target%20mobilenetv2%20on%20Cifar.png)
 ### Results of the modifications target MobileNetV3 on Cifar\
-![image](https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/target%20mobilenetv3.png)
+![image](https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/experimental%20results%20target%20mobilenetv3%20on%20Cifar.png)
 ### Results of the modifications target MobileNetV3 on ImageNet\
-![image](https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/target%20mobilenetv3.png)
+![image](https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/experimental%20results%20target%20mobilenetv3%20on%20ImageNet.png)
 
 #### (we rank the best models by top1 error, not by top5 error，which means the following top5 error is `not the best performance of our model`)
 
