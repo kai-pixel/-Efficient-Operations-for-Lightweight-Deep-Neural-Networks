@@ -41,7 +41,7 @@
 | drop out   | 0     | 0     | 0.2    |
 
 
-## Where to apply my cheap operations in the target Models
+## Where specifically to do the modifications with my cheap operations in the target Models
 
 1. the First-Conv
 
