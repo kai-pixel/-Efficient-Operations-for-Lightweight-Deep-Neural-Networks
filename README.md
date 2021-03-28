@@ -6,8 +6,7 @@
 
 - The related datasets are Cifar10/100 and ImageNet. The corresponding task is Image-Classification.
 
-- We have a very simple idea. Based on this idea, we proposed several different cheap operations. By using theses cheap operations to modify the target models MobileNetV2/3,
-we achieve a maximum 2.42% improvement, for the image classification task on Cifar100, while the parameters’ cost is reduced by up to 47%. Furthermore, we investigate experiments on large scale dataset ImageNet. The models we modified from MobileNetV3 with our cheap operations also bring a performance improvement on ImageNet.
+-  In this project, I proposed several cheap operations, based on an extremely idea, to modify the target model MobileNetV2 / 3. Through the modifications, the accuracy of the top 1 of the classification task on the Cifar 100 can be increased maximum by 2.42%, and the parameter cost can be simultaneously reduced by up to 47%. For the same task on ImageNet, my modification to MobileNetV3 can also bring performance improvements.
 
 
 ## Environment
