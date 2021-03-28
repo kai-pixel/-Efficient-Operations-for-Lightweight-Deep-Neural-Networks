@@ -68,25 +68,3 @@
 ![image](https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/experimental%20results%20target%20mobilenetv3%20on%20Cifar.png)
 ### Results of the modifications target MobileNetV3 on ImageNet\
 ![image](https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/experimental%20results%20target%20mobilenetv3%20on%20ImageNet.png)
-
-#### (we rank the best models by top1 error, not by top5 error，which means the following top5 error is `not the best performance of our model`)
-
-|  cifar100   | top1 error   | top5 error  corresponding  |
-| ---------- | :-----------:  | :-----------: |
-| MobileNetV2   | 31.5     | 9.01     |
-| cheapV2     | 28.76     | 8.13     |
-| MobileNetV3     | 26.5    | 6.12    |
-| cheapV3     | 25.88     | 6.7    |
-| cheapV3_shuffle(g=input_channel)     | 25.74   | 6.73    |
-| cheapV3_shuffle(g=6)     | 24.82  | 7.17   |
-
-## Runs on Tensorboard(`MobileNetV3` `cheapV3` `cheapV3_shuffle`)
-
-#### Test Accuracy
-![image](https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/Test%20Accuracy(cifar100).png)
-
-#### Test Accuracy(local zoom)
-![image](https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/local%20zoom%20to%20the%20Test%20Accuracy.png)
-
-#### Train Loss
-![image](https://github.com/kai-pixel/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/blob/master/IMG/Train%20Loss(cifar100).png)
