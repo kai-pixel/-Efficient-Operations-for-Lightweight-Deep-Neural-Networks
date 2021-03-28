@@ -21,64 +21,25 @@
 
 ***
 
-## If you want to train our model on cifar 100, Please follow the steps below：
+## Train-Policy
+ 
 
-#### `Step one: setting path` 
-
-1.  give your own checkpoint path in main.py (line 45) 
-
-2.  give your own logdir path in main.py (line 58) 
-
-3.  give your own dataset downloading path in main.py (line 94)(line 108)
-
-
-
-#### `Step two: model summary(optional)`
-
-
-1.  pip install flopth 
-
-2.  pip install torchsummary 
-
-3.  pip install thop 
-
-4.  %cd path to .../Efficient-Operations-for-Lightweight-Deep-Neural-Networks/Cifar100/models 
-
-5.  %run net.py 
+|  settings   | Cifar10   | Cifar100  | ImageNet  |
+| ---------- | :-----------:  | :-----------: | :-----------: |
+| target_model-version   | 31.5     | 9.01     | 9.01     |
+| batch-size   | 31.5     | 9.01     | 9.01     |
+| MobileNetV2   | 31.5     | 9.01     | 9.01     |
+| MobileNetV2   | 31.5     | 9.01     | 9.01     |
+| MobileNetV2   | 31.5     | 9.01     | 9.01     |
+| MobileNetV2   | 31.5     | 9.01     | 9.01     |
+| MobileNetV2   | 31.5     | 9.01     | 9.01     |
+| MobileNetV2   | 31.5     | 9.01     | 9.01     |
+| MobileNetV2   | 31.5     | 9.01     | 9.01     |
+| MobileNetV2   | 31.5     | 9.01     | 9.01     |
+| MobileNetV2   | 31.5     | 9.01     | 9.01     |
+| MobileNetV2   | 31.5     | 9.01     | 9.01     |
 
 
-looks like this:
-
-`%cd /content/drive/My Drive/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/Cifar100/models`
-
-`%run cheapV3.py`
-
-
-
-
-#### `Step three: Train and Test`
-
-1.  %cd path to .../Efficient-Operations-for-Lightweight-Deep-Neural-Networks/Cifar100 
-
-2.  run main.py and choose gpu(cuda device) and give the netname 
-
-
-looks like this:
-
-`%cd /content/drive/My Drive/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/Cifar100`
-
-`%env CUDA_VISIBLE_DEVICES=0,1`
-
-`%run main.py -net cheapV3`
-
-
-## If you want to test the best models on cifar 100 after train:
-
-looks like this:
-
-`%cd /content/drive/My Drive/-Efficient-Operations-for-Lightweight-Deep-Neural-Networks/Cifar100`
-
-`%run test.py -net MobileNetV3 -weights 'path/to/checkpoint/models/MobileNetV3-165-best.pth`
 
 
 
