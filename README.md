@@ -26,32 +26,34 @@
 
 |  settings   | Cifar10   | Cifar100  | ImageNet  |
 | ---------- | :-----------:  | :-----------: | :-----------: |
-| target_model-version   | 31.5     | 9.01     | 9.01     |
-| batch-size   | 31.5     | 9.01     | 9.01     |
-| MobileNetV2   | 31.5     | 9.01     | 9.01     |
-| MobileNetV2   | 31.5     | 9.01     | 9.01     |
-| MobileNetV2   | 31.5     | 9.01     | 9.01     |
-| MobileNetV2   | 31.5     | 9.01     | 9.01     |
-| MobileNetV2   | 31.5     | 9.01     | 9.01     |
-| MobileNetV2   | 31.5     | 9.01     | 9.01     |
-| MobileNetV2   | 31.5     | 9.01     | 9.01     |
-| MobileNetV2   | 31.5     | 9.01     | 9.01     |
-| MobileNetV2   | 31.5     | 9.01     | 9.01     |
-| MobileNetV2   | 31.5     | 9.01     | 9.01     |
+| target_model-version   | x 1.0     | x 1.0     | x 1.0     |
+| batch-size   | 128    | 128     | 256    |
+| EMA decay   | 0    | 0     | 0     |
+| initial-lr  | 0.35     | 0.35     | 0.05     |
+| Lr-decay   | cos     | cos     | cos     |
+| min-lr   | 0    | 0     | 0     |
+| warmup-epochs   | 5     | 5     | 0     |
+| weight-decay   | 6e-5     | 6e-5     | 4e-5     |
+| epochs   | 400     | 400     | 150     |
+| workers   | 2     | 2     | 8     |
+| label-smooth   | -     | 0.1    | -     |
+| optimizer   | SGD     | SGD     | SGD     |
+| drop out   | 0     | 0     | 0.2    |
 
 
+## Where to apply my cheap operations
 
+1. the First-Conv
 
+2. the 1x1 convolution in the bottlenecks before the depthwise separable convolution
 
+3. the 1x1 convolution in the bottlenecks after the depthwise separable convolution
 
-## Model Description
+4. the shortcut of MobileNetV2
 
-1. `MobileNetV3`: the original net from google. (mode='large', width_multiplier=1.0, dropout=0.2, BN_momentum=0.1, zero_gamma=False)
+5.the Last-Stage
 
-2. `cheapV3`: we modified the original net `MobileNetV3` with the pure `Reuse` operation.
-
-3. `cheapV3_shuffle`: we modified the original net `MobileNetV3` with the ` upgrade Reuse` operation.
-
+6. SE-Module in MobileNetV3
 
 ## Results Table the for Test on cifar100\
 
