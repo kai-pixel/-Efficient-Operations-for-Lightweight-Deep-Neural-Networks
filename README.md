@@ -1,16 +1,14 @@
-# Do networks really need so many different feature maps for deep learning ?
+# Optimization targets MobileNetV2/3
 
 ## Introduction
 
-* This project aims to explore how to use feature maps efficiently.
+* This project aims to improve the efficiency of MobileNetV2/3.
 
-- A new free operation ` Reuse` is proposed to replace the 1x1 convolution for increasing the dimension of feature map.
+- The related datasets are Cifar10/100 and ImageNet. The corresponding task is Image-Classification.
 
-- We applied our new proposed operation on three well-known networks, they are ` MobileNetV2` ` MobileNetV3` ` SqueezeNet` 
+- We have a very simple idea. Based on this idea, we proposed several different cheap operations. By using theses cheap operations to modify the target models MobileNetV2/3,
+we achieve a maximum 2.42% improvement, for the image classification task on Cifar100, while the parameters’ cost is reduced by up to 47%. Furthermore, we investigate experiments on large scale dataset ImageNet. The models we modified from MobileNetV3 with our cheap operations also bring a performance improvement on ImageNet.
 
-- The datasets we have already used by now are ` cifar10`  ` cifar100`  `tiny-imagenet ` 
-
-* We are further testing models with our proposed free operation `Reuse` on dataset `Imagenet`
 
 ## Environment
 
